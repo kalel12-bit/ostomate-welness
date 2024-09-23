@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Pengguna</title>
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="back-button" onclick="window.location.href='dashboard.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        <span>Kembali</span>
+    </div>
+
+    <h1>Profil Pengguna</h1>
+    
+    <div class="profile-container">
+        <div class="profile-frame" id="profileFrame">
+            <img src="anon.png" id="profilePhoto" alt="Foto Profil"> <!-- Gambar anonim -->
+        </div>
+        <div class="profile-info">
+            <h2>Informasi Pribadi</h2>
+            <p><strong>Nama Lengkap :</strong> <span id="fullNameDisplay"></span></p>
+            <p><strong>Username:</strong> <span id="usernameDisplay"></span></p>
+            <p><strong>Email:</strong> <span id="emailDisplay"></span></p>
+            <p><strong>Usia:</strong> <span id="ageDisplay"></span></p>
+            <p><strong>Nomor Handphone:</strong> <span id="phoneDisplay"></span></p>
+            <button id="editProfileButton">Edit Profil</button>
+        </div>
+    </div>
+
+    <button id="selectProfileButton">Pilih Profil</button>
+    <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="loadImage(event)">
+    <div class="avatar-options" id="avatarOptions" style="display: none;">
+        <!-- Opsi avatar akan diisi di sini jika diperlukan -->
+    </div>
+</div>
+
+<div class="footer-menu">
+    <a href="#" id="logoutBtn" class="menu-item">
+        <!-- Ikon Logout -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m-6-5a9 9 0 100-18 9 9 0 000 18z" />
+        </svg>
+        <span>Logout</span>
+    </a>
+</div>
+
+<script>
+    // Menampilkan informasi pengguna
+    const username = localStorage.getItem('loggedInUser');
+    document.getElementById('usernameDisplay').textContent = username;
+
+    // Mengambil data dari localStorage
+    const userData = JSON.parse(localStorage.getItem(username));
+    const fullName = userData ? userData.fullName : 'Tidak tersedia';
+    const email = userData ? userData.email : 'Tidak tersedia';
+    const age = userData ? calculateAge(userData.dob) : 'Tidak tersedia'; // Hitung usia berdasarkan tanggal lahir
+    const phone = userData ? userData.phone : 'Tidak tersedia';
+
+    document.getElementById('fullNameDisplay').textContent = fullName;
+    document.getElementById('emailDisplay').textContent = email;
+    document.getElementById('ageDisplay').textContent = age;
+    document.getElementById('phoneDisplay').textContent = phone;
+
+    // Mengambil foto profil dari localStorage jika ada
+    const savedPhoto = localStorage.getItem(`${username}_profilePhoto`);
+    if (savedPhoto) {
+        document.getElementById('profilePhoto').src = savedPhoto;
+    }
+
+    function loadImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profilePhoto').src = e.target.result;
+                localStorage.setItem(`${username}_profilePhoto`, e.target.result); // Simpan foto ke localStorage
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function calculateAge(dob) {
+        const birthDate = new Date(dob);
+        const ageDiff = Date.now() - birthDate.getTime();
+        const ageDate = new Date(ageDiff);
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
+
+    document.getElementById('editProfileButton').addEventListener('click', () => {
+        alert('Fitur edit profil belum tersedia!');
+    });
+
+    document.getElementById('selectProfileButton').addEventListener('click', () => {
+        const avatarOptions = document.getElementById('avatarOptions');
+        avatarOptions.style.display = avatarOptions.style.display === 'none' ? 'block' : 'none'; // Tampilkan atau sembunyikan opsi avatar
+        document.getElementById('fileInput').click(); // Buka dialog pemilihan foto pribadi
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+        // Hapus user dari localStorage dan redirect ke halaman login
+        localStorage.removeItem('loggedInUser');
+        localStorage.removeItem(`${username}_profilePhoto`); // Hapus foto profil dari localStorage jika ada
+
+        window.location.href = 'login.html';
+    });
+</script>
+
+</body>
+</html>

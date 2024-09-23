@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css"> <!-- Link ke file CSS -->
+</head>
+<body>
+    <div class="container">
+        <h1>Selamat datang di Portal Stoma!</h1>
+        <p id="welcomeMessage"></p>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Cari...">
+            <button id="searchButton">Cari</button>
+        </div>
+        <div id="searchResults" class="search-results"></div> <!-- Tempat untuk menampilkan hasil pencarian -->
+    </div>
+
+    <!-- Kotak informasi -->
+    <div class="boxes-container">
+        <div class="left-column">
+            <div class="box" onclick="window.location.href='stoma.html'">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                </svg>
+                <h3>STOMA</h3>
+            </div>
+            <div class="box" onclick="window.location.href='nutrisi.html'">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2L2 12h3v6h6v3h6v-3h3L12 2z" />
+                </svg>
+                <h3>NUTRISI</h3>
+            </div>
+        </div>
+        <div class="right-column">
+            <div class="box" onclick="window.location.href='aktivitas.html'">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 9l1-1h5l2 2-1 1-5-5-1 1-1-1z" />
+                </svg>
+                <h3>AKTIVITAS</h3>
+            </div>
+            <div class="box" onclick="window.location.href='cek_kesehatan.html'">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v2m0 16v2m4-20h2m-16 0h2m2 16h2m-6-6h2m12 0h2M2 12h2m16 0h2M4 4l16 16M4 20L20 4" />
+                </svg>
+                <h3>YOK CEK KESEHATAN KAMU!!<3</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-menu">
+        <a href="profile.html" class="menu-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1118.879 17.8M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>Profil Pengguna</span>
+        </a>
+        <a href="reports.html" class="menu-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M9 3v4h6V3H9z" />
+            </svg>
+            <span>Laporan</span>
+        </a>
+        <a href="notifications.html" class="menu-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-2.81A2 2 0 0117 13V9a7.002 7.002 0 00-13.994.002V13a2 2 0 01-.195.816L3 17h5m7 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+            <span>Notifikasi</span>
+        </a>
+    </div>
+
+    <script>
+        const username = localStorage.getItem('loggedInUser');
+
+        if (username) {
+            document.getElementById('welcomeMessage').textContent = `Halo, ${username}! Selamat datang kembali.`;
+        } else {
+            window.location.href = 'login.html'; // Kembali ke halaman login jika tidak ada user
+        }
+
+        // Data contoh untuk pencarian
+        const items = [
+            { name: "Nutrisi Sehat", link: "nutrisi.html" },
+            { name: "Aktivitas Fisik", link: "aktivitas.html" },
+            { name: "Cek Kesehatan", link: "cek_kesehatan.html" },
+            { name: "Manajemen Stoma", link: "manajemen_stoma.html" },
+            { name: "Dukungan Emosional", link: "dukungan.html" },
+            { name: "Informasi Medis", link: "informasi_medis.html" }
+        ];
+
+        document.getElementById('searchButton').addEventListener('click', () => {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const resultsContainer = document.getElementById('searchResults');
+            resultsContainer.innerHTML = ''; // Hapus hasil sebelumnya
+
+            if (query) {
+                const results = items.filter(item => item.name.toLowerCase().includes(query));
+                if (results.length > 0) {
+                    results.forEach(item => {
+                        const div = document.createElement('div');
+                        const link = document.createElement('a');
+                        link.href = item.link; // Set link untuk diarahkan ke halaman yang relevan
+                        link.textContent = item.name;
+                        link.target = "_blank"; // Membuka link di tab baru (opsional)
+                        div.appendChild(link);
+                        resultsContainer.appendChild(div);
+                    });
+                } else {
+                    resultsContainer.textContent = "Tidak ada hasil yang ditemukan.";
+                }
+            } else {
+                alert("Silakan masukkan kata kunci pencarian.");
+            }
+        });
+    </script>
+</body>
+</html>

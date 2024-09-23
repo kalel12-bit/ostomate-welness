@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Kesehatan Penderita Stoma</title>
+    <link rel="stylesheet" href="reports.css"> <!-- Link ke file CSS -->
+</head>
+<body>
+    <div class="container">
+        <h1>Laporan Kesehatan Harian</h1>
+        <div id="laporanContainer">
+            <!-- Laporan akan ditampilkan di sini -->
+        </div>
+
+        <a href="dashboard.html" class="back-button">Kembali ke Dashboard</a>
+    </div>
+
+    <script>
+        // Ambil data laporan dari localStorage
+        const laporanList = JSON.parse(localStorage.getItem('laporanKesehatanList')) || [];
+        const laporanContainer = document.getElementById('laporanContainer');
+
+        if (laporanList.length > 0) {
+            laporanList.forEach((laporan) => {
+                const laporanDiv = document.createElement('div');
+                laporanDiv.classList.add('laporan-item');
+                laporanDiv.innerHTML = `
+                    <h3>Tanggal: ${laporan.tanggal}</h3>
+                    <p>Kondisi Stoma: ${laporan.kondisiStoma}</p>
+                    <p>Nyeri: ${laporan.nyeri}</p>
+                    <p>Aktivitas Fisik: ${laporan.aktivitas}</p>
+                    <p>Konsumsi Air: ${laporan.konsumsiAir} liter</p>
+                    <p>Warna Cairan: ${laporan.warnaCairan}</p>
+                    <p>Jumlah Cairan: ${laporan.jumlahCairan} liter</p>
+                    <p>Konsistensi Cairan: ${laporan.konsistensiCairan}</p>
+                    <p>Bau Cairan: ${laporan.bauCairan}</p>
+                    <hr>
+                `;
+
+                // Menentukan pesan berdasarkan kondisi dan menambahkannya ke laporan
+                let pesan = '';
+                if (laporan.kondisiStoma === 'baik') {
+                    pesan = 'Anda dalam kondisi baik. Tetap jaga kesehatan!';
+                } else if (laporan.kondisiStoma === 'iritasi') {
+                    pesan = 'Anda mengalami iritasi. Segera konsultasikan dengan dokter jika tidak membaik.';
+                } else if (laporan.kondisiStoma === 'infeksi') {
+                    pesan = 'Anda mengalami infeksi. Penting untuk segera mendapatkan perawatan medis.';
+                } else if (laporan.kondisiStoma === 'bengkak') {
+                    pesan = 'Anda mengalami pembengkakan. Harap lakukan pemeriksaan lebih lanjut.';
+                }
+
+                // Tambahkan pesan ke laporan
+                laporanDiv.innerHTML += `<p><strong>Pesan:</strong> ${pesan}</p>`;
+                laporanContainer.appendChild(laporanDiv);
+            });
+        } else {
+            laporanContainer.innerHTML = '<p>Belum ada laporan kesehatan.</p>';
+        }
+    </script>
+</body>
+</html>

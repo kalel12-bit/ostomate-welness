@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Kesehatan Penderita Stoma</title>
+    <link rel="stylesheet" href="cek_kesehatan.css"> <!-- Link ke file CSS -->
+</head>
+<body>
+    <div class="container">
+        <h1>Cek Kesehatan Penderita Stoma</h1>
+        <p>Isi form di bawah ini untuk melakukan cek kesehatan harian Anda.</p>
+        
+        <form id="cekKesehatanForm">
+            <label for="tanggal">Tanggal:</label>
+            <input type="text" id="tanggal" name="tanggal" readonly> <!-- Tanggal otomatis diisi -->
+
+            <label for="kondisiStoma">Kondisi Stoma:</label>
+            <select id="kondisiStoma" name="kondisiStoma" required>
+                <option value="">Pilih kondisi</option>
+                <option value="baik">Baik</option>
+                <option value="iritasi">Iritasi</option>
+                <option value="infeksi">Infeksi</option>
+                <option value="bengkak">Bengkak</option>
+            </select>
+
+            <label for="nyeri">Apakah Anda merasakan nyeri di area stoma?</label>
+            <select id="nyeri" name="nyeri" required>
+                <option value="">Pilih jawaban</option>
+                <option value="ya">Ya</option>
+                <option value="tidak">Tidak</option>
+            </select>
+
+            <label for="aktivitas">Apakah Anda sudah melakukan aktivitas fisik hari ini?</label>
+            <select id="aktivitas" name="aktivitas" required>
+                <option value="">Pilih jawaban</option>
+                <option value="sudah">Sudah</option>
+                <option value="belum">Belum</option>
+            </select>
+
+            <label for="konsumsiAir">Berapa banyak air yang Anda konsumsi hari ini (liter)?</label>
+            <input type="number" id="konsumsiAir" name="konsumsiAir" step="0.1" min="0" max="10" required>
+
+            <label for="warnaCairan">Warna Cairan:</label>
+            <select id="warnaCairan" name="warnaCairan" required>
+                <option value="">Pilih warna</option>
+                <option value="jernih">Jernih</option>
+                <option value="kuning">Kuning</option>
+                <option value="hijau">Hijau</option>
+                <option value="merah">Merah</option>
+                <option value="coklat">Coklat</option>
+            </select>
+
+            <label for="jumlahCairan">Jumlah Cairan (liter):</label>
+            <input type="number" id="jumlahCairan" name="jumlahCairan" step="0.1" min="0" max="10" required>
+
+            <label for="konsistensiCairan">Konsistensi Cairan:</label>
+            <select id="konsistensiCairan" name="konsistensiCairan" required>
+                <option value="">Pilih konsistensi</option>
+                <option value="cair">Cair</option>
+                <option value="kental">Kental</option>
+                <option value="padat">Padat</option>
+            </select>
+
+            <label for="bauCairan">Bau Cairan:</label>
+            <select id="bauCairan" name="bauCairan" required>
+                <option value="">Pilih bau</option>
+                <option value="normal">Normal</option>
+                <option value="busuk">Busuk</option>
+                <option value="asam">Asam</option>
+                <option value="tidak ada">Tidak Ada</option>
+            </select>
+
+            <input type="submit" value="Kirim Cek Kesehatan">
+        </form>
+
+        <div id="hasilCekKesehatan" class="hasil-cek" style="display: none;">
+            <h2>Terima Kasih!</h2>
+            <p>Laporan kesehatan Anda telah dikirim.</p>
+        </div>
+
+        <a href="dashboard.html" class="back-button">Kembali ke Dashboard</a>
+    </div>
+
+    <script>
+        // Mengambil tanggal saat ini dan menampilkan di input tanggal
+        const today = new Date();
+        const formattedDate = today.toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+        document.getElementById('tanggal').value = formattedDate;
+
+        // Menyimpan data ke localStorage dan menampilkan hasil cek
+        const form = document.getElementById('cekKesehatanForm');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Ambil nilai dari form
+            const tanggal = document.getElementById('tanggal').value;
+            const kondisiStoma = document.getElementById('kondisiStoma').value;
+            const nyeri = document.getElementById('nyeri').value;
+            const aktivitas = document.getElementById('aktivitas').value;
+            const konsumsiAir = document.getElementById('konsumsiAir').value;
+            const warnaCairan = document.getElementById('warnaCairan').value;
+            const jumlahCairan = document.getElementById('jumlahCairan').value;
+            const konsistensiCairan = document.getElementById('konsistensiCairan').value;
+            const bauCairan = document.getElementById('bauCairan').value;
+
+            // Buat objek laporan kesehatan
+            const laporanKesehatan = {
+                tanggal,
+                kondisiStoma,
+                nyeri,
+                aktivitas,
+                konsumsiAir,
+                warnaCairan,
+                jumlahCairan,
+                konsistensiCairan,
+                bauCairan
+            };
+
+            // Ambil data laporan yang sudah ada di localStorage, jika ada
+            let laporanList = JSON.parse(localStorage.getItem('laporanKesehatanList')) || [];
+
+            // Tambahkan laporan baru
+            laporanList.push(laporanKesehatan);
+
+            // Simpan kembali ke localStorage
+            localStorage.setItem('laporanKesehatanList', JSON.stringify(laporanList));
+
+            // Alihkan ke halaman laporan
+            window.location.href = 'reports.html'; // Ganti dengan nama file laporan Anda
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+/* File dashboard.css */
+
+/* Reset margin dan padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #74ebd5, #acb6e5); /* Gradient background */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* Pastikan body memenuhi tinggi viewport */
+}
+
+/* Container utama */
+.container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    text-align: left; /* Rata kiri teks dalam container */
+    max-width: 800px; /* Atur lebar maksimum untuk responsivitas */
+    width: 100%;
+    margin: 40px auto; /* Rata tengah dan beri margin atas */
+    transition: transform 0.3s; /* Efek transisi saat hover */
+}
+
+.container:hover {
+    transform: translateY(-5px); /* Efek mengangkat saat hover */
+}
+
+h1 {
+    margin-bottom: 10px; /* Beri margin bawah pada judul */
+    color: #5a5a5a;
+    text-shadow: 1px 1px 2px rgba(225, 225, 255, 0.5);
+}
+p {
+    margin-bottom :30px;
+    font-size: 1.2rem; /* Atur ukuran font untuk pesan selamat datang */
+    color: #333; /* Beri margin bawah pada paragraf */
+}
+
+/* Kotak pencarian */
+.search-container {
+    margin-bottom: 20px; /* Beri margin bawah pada kotak pencarian */
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 600px; /* Atur lebar maksimum untuk responsivitas */
+}
+
+#searchInput {
+    flex: 1; /* Input akan mengisi sisa ruang yang tersedia */
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    transition: border-color 0.3;
+    border-radius: 5px 0 0 5px; /* Rounded border di kiri */
+}
+
+#searchButton {
+    padding: 10px 15px;
+    font-size: 1rem;
+    background-color: #5a5a5a;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0; /* Rounded border di kanan */
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    outline: none;
+}
+
+#searchinput:focus{
+    border-color: #5a5a5a;
+    box-shadow: 0 0 5px rgba(90, 90, 90, 0.5);
+}
+#searchButton:hover {
+    background-color: #45a049; /* Efek hover pada tombol pencarian */
+}
+
+/* Kotak informasi */
+.boxes-container {
+    display: flex;
+    justify-content: center; /* Pusatkan kotak informasi */
+    gap: 20px; /* Jarak antar kotak */
+    margin: 40px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.left-column,
+.right-column {
+    flex: 1; /* Bagi ruang secara merata di dalam kolom */
+}
+
+.box {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.box:hover {
+    transform: translateY(-5px); /* Angkat kotak saat hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Bayangan lebih jelas saat hover */
+}
+
+.box svg {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.box h3 {
+    text-align: center;
+}
+
+/* Footer menu */
+.footer-menu {
+    position: fixed;
+    bottom: 20px; /* Atur posisi di bagian bawah */
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Pusatkan menu */
+    background-color: rgba(255, 255, 255, 0.8); /* Warna latar belakang semi-transparan */
+    backdrop-filter: blur(10px); /* Efek blur pada latar belakang */
+    padding: 10px 0; /* Beri padding atas dan bawah */
+    z-index: 100; /* Pastikan footer tetap di atas konten */
+}
+
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    padding: 10px 20px;
+    transition: color 0.3s;
+}
+
+.menu-item:hover {
+    color: #4CAF50; /* Ubah warna teks saat hover */
+}
+
+.menu-item .icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 5px;
+}
